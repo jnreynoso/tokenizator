@@ -1,23 +1,19 @@
 class Token {
-  public email: string;
-  public cardNumber: string;
-  public cvv: string;
-
-  public expirationYear: string;
-  public expirationMonth: string;
+  public id: number;
+  public numberId: number;
+  public token: string;
+  public expirationDate: string;
 
   constructor(
-    email: string,
-    cardNumber: string,
-    cvv: string,
-    expirationYear: string,
-    expirationMonth: string
+    id: number,
+    numberId: number,
+    token: string,
+    expirationDate: string
   ) {
-    this.email = email;
-    this.cardNumber = cardNumber;
-    this.cvv = cvv;
-    this.expirationYear = expirationYear;
-    this.expirationMonth = expirationMonth;
+    this.id = id;
+    this.numberId = numberId;
+    this.token = token;
+    this.expirationDate = expirationDate;
   }
 }
 
