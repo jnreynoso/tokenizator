@@ -1,7 +1,26 @@
+import dotenv from "dotenv";
+
 import { MongoClient, Collection } from "mongodb";
 
-const url =
-  "mongodb://jnreynoso:shutdown-i123QWE@docdb-2023-04-18-22-24-20.cluster-cbhdrjtqlmgp.us-east-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false";
+dotenv.config();
+
+const MONGO_USER = process.env.MONGO_USER;
+const MONGO_HOST = process.env.MONGO_HOST;
+const MONGO_PORT = process.env.MONGO_PORT;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+
+console.log("**************************************************");
+console.log("**************************************************");
+console.log("**************************************************");
+console.log("**************************************************");
+console.log("**************************************************");
+console.log("**************************************************");
+console.log("**************************************************");
+console.log("**************************************************");
+console.log(process.env.MONGO_USER);
+
+const url = "mongodb://localhost:27017";
+//const url = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`;
 const dbName = "tokenizator";
 
 export class Database {
@@ -12,9 +31,7 @@ export class Database {
 
   async connect() {
     this.client = new MongoClient(url, {
-      ssl: true,
-      sslValidate: true,
-      sslCA: "rds-combined-ca-bundle.pem",
+      tlsAllowInvalidCertificates: true,
     });
     await this.client.connect();
     this.db = this.client.db(dbName);
