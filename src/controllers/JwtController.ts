@@ -4,12 +4,12 @@ import jwt from "jsonwebtoken";
 const secret = "mi_secreto_super_secreto";
 
 class JWTController {
-  public generateToken(req: Request, res: Response): void {
+  public signin(req: Request, res: Response): void {
     const token = jwt.sign({ userId: "123456" }, secret, { expiresIn: "1h" });
     res.send(token);
   }
 
-  public verifyToken(req: Request, res: Response, next: Function) {
+  public verify(req: Request, res: Response, next: Function) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
 

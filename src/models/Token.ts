@@ -1,16 +1,16 @@
 class Token {
-  public id: number;
+  public _id?: string;
   public numberId: number;
   public token: string;
   public expirationDate: string;
 
   constructor(
-    id: number,
+    _id: string,
     numberId: number,
     token: string,
     expirationDate: string
   ) {
-    this.id = id;
+    this._id = _id;
     this.numberId = numberId;
     this.token = token;
     this.expirationDate = expirationDate;
