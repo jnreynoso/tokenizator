@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { InsertOneResult } from "mongodb";
+import TokenDto from "../dtos/Token";
 
 import Card from "../models/Card";
 import CardController from "./CardController";
@@ -12,8 +12,9 @@ class TokenController {
 
   public async create(req: Request, res: Response): Promise<void> {
     const body = req.body;
+    const headers = req.headers;
 
-    const { errors, hasErrors } = this.validations(body);
+    const { errors, hasErrors } = this.validations(body, headers);
 
     if (hasErrors) {
       res.send({ errors });
@@ -34,10 +35,23 @@ class TokenController {
 
     const token = JwtController.signin(`${insertedId}`);
 
-    res.send({ token });
+    const dto: TokenDto = {
+      token: `${token}`,
+    };
+
+    res.send(dto);
   }
 
-  private validations(body: any) {
+  private validatePk(str: string): boolean {
+    const regexBearer = /Bearer (\w+)/;
+    const match = str.match(regexBearer);
+    const token = match ? match[1] : null;
+
+    const regexPk = /^pk_[a-z]+_[A-Za-z0-9]{16}$/;
+    return regexPk.test(token);
+  }
+
+  private validations(body: any, headers: any) {
     const requiredParams = [
       "email",
       "card_number",
@@ -53,6 +67,13 @@ class TokenController {
             ","
           )}`,
         ],
+        hasErrors: true,
+      };
+    }
+
+    if (!this.validatePk(headers.authorization || "")) {
+      return {
+        errors: [`Verifique formato de PK en el request`],
         hasErrors: true,
       };
     }
