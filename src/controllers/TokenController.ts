@@ -1,45 +1,66 @@
 import { Request, Response } from "express";
+import { Database } from "../database";
 import TokenDto from "../dtos/Token";
 
 import Card from "../models/Card";
+import Transaction from "../models/Transaction";
 import CardController from "./CardController";
 import JwtController from "./JwtController";
+import TransactionController from "./TransactionController";
 
 class TokenController {
+  private database: Database;
+
   constructor() {
+    this.database = new Database();
     this.create = this.create.bind(this);
   }
 
   public async create(req: Request, res: Response): Promise<void> {
-    const body = req.body;
-    const headers = req.headers;
+    try {
+      const body = req.body;
+      const headers = req.headers;
 
-    const { errors, hasErrors } = this.validations(body, headers);
+      const { errors, hasErrors } = this.validations(body, headers);
 
-    if (hasErrors) {
-      res.send({ errors });
-      return;
+      if (hasErrors) {
+        res.send({ errors });
+        return;
+      }
+
+      const card = new Card(
+        body.email,
+        body.card_number,
+        body.cvv,
+        body.expiration_year,
+        body.expiration_month
+      );
+
+      const controller = new CardController();
+
+      const insertedId = await controller.create(card);
+
+      const token: string = JwtController.signin(`${insertedId}`);
+      const now = new Date();
+      const oneMinuteFromNow = new Date(now.getTime() + 60 * 1000);
+
+      const expirationDate = oneMinuteFromNow.toISOString();
+
+      await TransactionController.create(
+        new Transaction(`${insertedId}`, token, expirationDate)
+      );
+
+      const dto: TokenDto = {
+        token: `${token}`,
+      };
+
+      res.send(dto);
+    } catch (err) {
+      res.send({
+        error: true,
+        message: "No se pudo crear el token correctamente",
+      });
     }
-
-    const card = new Card(
-      body.email,
-      body.card_number,
-      body.cvv,
-      body.expiration_year,
-      body.expiration_month
-    );
-
-    const controller = new CardController();
-
-    const insertedId = await controller.create(card);
-
-    const token = JwtController.signin(`${insertedId}`);
-
-    const dto: TokenDto = {
-      token: `${token}`,
-    };
-
-    res.send(dto);
   }
 
   private validatePk(str: string): boolean {
