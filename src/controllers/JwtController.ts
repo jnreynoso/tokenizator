@@ -10,6 +10,15 @@ class JWTController {
     return token;
   }
 
+  public verifyByToken(token: string) {
+    try {
+      const decoded = jwt.verify(token, secret);
+      return { token: decoded };
+    } catch (err) {
+      return { error: err, message: "El token de autenticación es inválido" };
+    }
+  }
+
   public verify(req: Request, res: Response, next: Function) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];

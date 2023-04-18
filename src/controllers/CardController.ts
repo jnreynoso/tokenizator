@@ -5,6 +5,8 @@ import { Database } from "../database";
 import TransactionController from "./TransactionController";
 import CardDto from "../dtos/Card";
 import ErrorResponse from "../utils/Error";
+import TokenController from "./TokenController";
+import JwtController from "./JwtController";
 
 class CardController {
   private database: Database;
@@ -64,28 +66,31 @@ class CardController {
       const findedToken = await TransactionController.findByToken(`${token}`);
 
       if (findedToken && "expirationDate" in findedToken) {
-        const expirationDate = new Date(findedToken.expirationDate);
-        const currentDate = new Date();
+        // const expirationDate = new Date(findedToken.expirationDate);
+        // const currentDate = new Date();
 
-        if (currentDate <= expirationDate) {
-          const card = await this.findById(findedToken.cardId);
-          // "number" in card / confuso?
-          const NUMBER_CARD_PROPERTY = "number";
+        const verifyJwt = JwtController.verifyByToken(`${token}`);
 
-          if (NUMBER_CARD_PROPERTY in card) {
-            const dto: CardDto = {
-              email: card.email,
-              number: card.number,
-              expirationYear: card.expirationYear,
-              expirationMonth: card.expirationMonth,
-            };
+        if ("error" in verifyJwt) {
+          res.send({ message: verifyJwt.message });
+          return;
+        }
 
-            res.send(dto);
-          } else {
-            res.send(card);
-          }
+        const card = await this.findById(findedToken.cardId);
+        // "number" in card / confuso?
+        const NUMBER_CARD_PROPERTY = "number";
+
+        if (NUMBER_CARD_PROPERTY in card) {
+          const dto: CardDto = {
+            email: card.email,
+            number: card.number,
+            expirationYear: card.expirationYear,
+            expirationMonth: card.expirationMonth,
+          };
+
+          res.send(dto);
         } else {
-          res.send({ message: "El token ha vencido" });
+          res.send(card);
         }
       } else {
         res.send({ message: "Token inexistente" });
