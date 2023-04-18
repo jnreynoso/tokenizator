@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { Database } from "../database";
-import TokenDto from "../dtos/Token";
+import { Database } from "../database.js";
+import TokenDto from "../dtos/Token.js";
 
-import Card from "../models/Card";
-import Transaction from "../models/Transaction";
-import CardController from "./CardController";
-import JwtController from "./JwtController";
-import TransactionController from "./TransactionController";
+import Card from "../models/Card.js";
+import Transaction from "../models/Transaction.js";
+import CardController from "./CardController.js";
+import JwtController from "./JwtController.js";
+import TransactionController from "./TransactionController.js";
 
 class TokenController {
   private database: Database;

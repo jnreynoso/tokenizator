@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
-import Transaction from "../models/Transaction";
-import { Database } from "../database";
-import ErrorResponse from "../utils/Error";
+import Transaction from "../models/Transaction.js";
+import { Database } from "../database.js";
+import ErrorResponse from "../utils/Error.js";
 
 class TransactionController {
   private database: Database;

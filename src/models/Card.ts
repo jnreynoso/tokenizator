@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import Model from "./Model";
+import Model from "./Model.js";
 class Card extends Model {
   public _id?: ObjectId;
   public email: string;

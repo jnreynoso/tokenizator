@@ -1,7 +1,7 @@
 import { Router } from "express";
-import jwtRouter from "./jwt";
-import tokenRouter from "./token";
-import cardRouter from "./card";
+import jwtRouter from "./jwt.js";
+import tokenRouter from "./token.js";
+import cardRouter from "./card.js";
 
 const router = Router();
 

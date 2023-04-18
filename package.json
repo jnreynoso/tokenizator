@@ -4,9 +4,12 @@
   "description": "Prueba tecnica para Qulqui",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "rollup": "rollup -c rollup.config.js",
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/jnreynoso/tokenizator.git"
@@ -18,6 +21,10 @@
   },
   "homepage": "https://github.com/jnreynoso/tokenizator#readme",
   "devDependencies": {
+    "rollup": "^3.20.6",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
     "typescript": "^5.0.4"
   },
   "dependencies": {

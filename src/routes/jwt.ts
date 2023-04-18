@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import jwtController from "../controllers/JwtController";
+import jwtController from "../controllers/JwtController.js";
 
 const jwtRouter = Router();
 

@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
-import Card from "../models/Card";
-import { Database } from "../database";
-import TransactionController from "./TransactionController";
-import CardDto from "../dtos/Card";
-import ErrorResponse from "../utils/Error";
-import TokenController from "./TokenController";
-import JwtController from "./JwtController";
+import Card from "../models/Card.js";
+import { Database } from "../database.js";
+import TransactionController from "./TransactionController.js";
+import CardDto from "../dtos/Card.js";
+import ErrorResponse from "../utils/Error.js";
+import JwtController from "./JwtController.js";
 
 class CardController {
   private database: Database;
