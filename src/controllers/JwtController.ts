@@ -4,9 +4,10 @@ import jwt from "jsonwebtoken";
 const secret = "mi_secreto_super_secreto";
 
 class JWTController {
-  public signin(req: Request, res: Response): void {
-    const token = jwt.sign({ userId: "123456" }, secret, { expiresIn: "1h" });
-    res.send(token);
+  public signin(cardId: string): void {
+    const token = jwt.sign({ cardId }, secret, { expiresIn: "1m" });
+
+    return token;
   }
 
   public verify(req: Request, res: Response, next: Function) {

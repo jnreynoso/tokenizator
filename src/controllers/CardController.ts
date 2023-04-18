@@ -1,4 +1,4 @@
-import { InsertOneResult } from "mongodb";
+import { InsertOneResult, ObjectId } from "mongodb";
 import Card from "../models/Card";
 import { Database } from "../database";
 
@@ -10,7 +10,7 @@ class CardController {
     this.database = new Database();
   }
 
-  public async create(body: Card): Promise<InsertOneResult<Document> | void> {
+  public async create(body: Card): Promise<ObjectId | void> {
     try {
       await this.database.connect();
       const collection = this.database.getCollection(this.collectionName);
@@ -18,7 +18,7 @@ class CardController {
       const card: Card = body;
       const result = await collection.insertOne(card);
 
-      return result;
+      return result.insertedId;
     } catch (err) {
       return;
     } finally {

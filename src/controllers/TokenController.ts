@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
+import { InsertOneResult } from "mongodb";
+
 import Card from "../models/Card";
 import CardController from "./CardController";
+import JwtController from "./JwtController";
 
 class TokenController {
   constructor() {
@@ -27,9 +30,11 @@ class TokenController {
 
     const controller = new CardController();
 
-    const result = await controller.create(card);
+    const insertedId = await controller.create(card);
 
-    res.send(result);
+    const token = JwtController.signin(`${insertedId}`);
+
+    res.send({ token });
   }
 
   private validations(body: any) {
