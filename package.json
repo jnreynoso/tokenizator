@@ -6,7 +6,8 @@
   "scripts": {
     "rollup": "rollup -c rollup.config.js",
     "build": "tsc",
-    "start": "npm run build && node dist/index.js",
+    "start": "node dist/index.js",
+    "build:start": "npm run build && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
@@ -21,10 +22,11 @@
   },
   "homepage": "https://github.com/jnreynoso/tokenizator#readme",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
     "rollup": "^3.20.6",
     "rollup-plugin-typescript2": "^0.34.1",
-    "@rollup/plugin-commonjs": "^24.1.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
     "typescript": "^5.0.4"
   },
   "dependencies": {
@@ -32,6 +34,6 @@
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.2.0"
+    "mongodb": "^5.3.0"
   }
 }
