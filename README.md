@@ -14,7 +14,6 @@ Este proyecto se encarga de simular la tokenización de tarjetas de crédito/dé
 1. Clona el repositorio y navega a la carpeta del proyecto.
 2. Ejecuta `npm install` para instalar las dependencias.
 3. Ejecuta `npm run build` para compilar TypeScript y generar el build de la aplicación.
-4. Ejecuta `npm run test` para ejecutar los tests en un entorno local.
 
 ## Endpoints
 
